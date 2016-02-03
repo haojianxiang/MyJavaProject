@@ -2,11 +2,6 @@ package util;
 
 import java.security.MessageDigest;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 
 public class HandleStringToMD5 {
@@ -18,7 +13,7 @@ public class HandleStringToMD5 {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] aa) throws ParseException{
-		String aaa = "aaaaaaaaaaaaa";
+		String aaa = "aaaaaaaaaaaaaa";
 		String md5 = MD5(aaa);
 		String bb= "aaaaaaaaaaaaa";
 		String md52 = MD5(bb);
