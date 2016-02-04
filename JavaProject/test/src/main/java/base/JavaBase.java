@@ -48,7 +48,6 @@ public class JavaBase {
 //			System.out.println("这个订单已经完毕!  orderId:");
 		}
 		
-		
 		Long orderId = 123456789999L;
 		Long ru = 10001L;
 		
@@ -88,7 +87,6 @@ public class JavaBase {
 //			System.out.println(sb);
 		}
 		
-		
 		int wordsCount = 10;
 		double amount = 0.0;
 		for (int i=0;i<4;i++) {
@@ -96,7 +94,6 @@ public class JavaBase {
 		}
 		amount = MathUtil.getFormatScale2(amount);
 //		System.out.println(amount);
-		
 		
 		String sunyuTaskDtoString = "<string xmlns=\"http://www.sunyu.com/\">{\"wordsCount\":46,\"amount\":49.7352,\"errorDescr\":null,\"success\":true}</string>";
 		sunyuTaskDtoString = sunyuTaskDtoString.replaceAll("\\>\\{", "\\>\\&#\\{");
@@ -106,16 +103,12 @@ public class JavaBase {
 		
 //		System.out.println(sunyuTaskDtoString);
 		
-		
-		
-		
 		String aaaa = "A";
 		for (int i = 0; i < 3000; i++) {
 			aaaa +="A";
 		}
 		aaaa += "B";
 //		System.out.println(aaaa);
-		
 		
 		String regex1 = "[\u4e00-\u9fa5]$";
 		String str1 = "什是";
@@ -124,16 +117,12 @@ public class JavaBase {
 		}else {
 //			System.out.println("no");
 		}
-	
-		
 		
 		Object mid = 5656788L;
 //		Integer mid1 = (Integer)mid;
 		Integer mid2 = Integer.valueOf(mid.toString());
 //		System.out.println(mid1);
 //		System.out.println(mid2);
-		
-
 		
 		String a = "a"+"a";
 		String b = "aa";
@@ -178,13 +167,11 @@ public class JavaBase {
 //		System.out.println(num);
 		
 		
-		
 		double doubleValue =1;
 		for (int i = 0; i < 100; i++) {
 //			System.out.println(doubleValue/10);
 		}
 		
-		System.out.println("start");
         int i=188;
         switch(i)
         {
@@ -203,8 +190,8 @@ public class JavaBase {
               default:
                System.out.println("other");
         }
-		
-		
+
+        
+        
 	}
-	
 }
