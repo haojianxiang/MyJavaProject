@@ -10,7 +10,6 @@ public class ListUtil {
 		for (int i = 0; i < 10; i++) {
 			lst1.add(i);
 		}
-		System.out.println(listToArray(Integer.class,lst1));
 		Integer[] array1 = listToArray(Integer.class,lst1);
 		for (int i = 0; i < array1.length; i++) {
 			System.out.println(array1[i]);
