@@ -24,7 +24,6 @@ public class ListUtil {
 	
 	public static <T> T[] listToArray(Class<T> type,List<T> lst){
 		T[] array = (T[]) Array.newInstance(type, lst.size());
-		System.out.println();
 		for (int i = 0; i < lst.size(); i++) {
 			array[i] = lst.get(i);
 		}
