@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -215,7 +217,7 @@ public class UsedCodes {
     }
 	
 	//20. 改变数组的大小
-    private static Object resizeArray (Object oldArray, int newSize) {  
+    public static Object resizeArray (Object oldArray, int newSize) {  
     	   int oldSize = java.lang.reflect.Array.getLength(oldArray);  
     	   Class elementType = oldArray.getClass().getComponentType();  
     	   Object newArray = java.lang.reflect.Array.newInstance(  
@@ -224,5 +226,15 @@ public class UsedCodes {
     	   if (preserveLength > 0)  
     	      System.arraycopy (oldArray,0,newArray,0,preserveLength);  
     	   return newArray;  
-    	}  
+   }
+    
+    //使用java正则可以很方便的从字符串中提取符合条件的内容。
+    //  "(13|14|15|18)\\d{9}"
+    public static void getPhoneNum(String smsBody ,String regex) {  
+	    Pattern pattern = Pattern.compile(regex);  
+        Matcher matcher = pattern.matcher(smsBody);  
+        while (matcher.find()) {  
+            System.out.println(matcher.group());  
+        }  
+	}
 }
