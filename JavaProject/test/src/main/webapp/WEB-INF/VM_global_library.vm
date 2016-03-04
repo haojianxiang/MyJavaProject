@@ -1,0 +1,154 @@
+## Display all queued Struts errors for a particular property
+#macro (errorMarkupForProperty $property)
+    #if ($errors.exist($property) )
+    	<div>
+        #foreach ($er in $errors.get($property))
+           #if("https"==$reqscheme)
+	            <div style="color:#F00; font-size:11px; line-height:22px; height:22px; overflow:hidden; padding-left:30px; background:url(/img/login_bg.gif) no-repeat 5px -15px;">$er</div>
+				 #else
+				<div style="color:#F00; font-size:11px; line-height:22px; height:22px; overflow:hidden; padding-left:30px; background:url(http://image.dhgate.com/b/img/login/login_bg.gif) no-repeat 5px -15px;">$er</div>
+		   #end
+		#end
+        </div>
+    #end
+#end
+    
+#macro(pagebar $pageInfo $form)
+	#if($pageInfo.getResult().size()>0)
+   <script language="javascript">
+	    function turnpage (pagenum,frm){
+			if(frm==null || frm==''){
+				frm=document.getElementById('$form');
+			}else{
+				frm=document.getElementById(frm);
+			}
+			$('input[data-value]',frm).each(function(){
+				if($(this).val() ==  $(this).attr('data-value')){
+					$(this).val('');
+				}
+			});
+			frm.page.value=pagenum;
+			frm.submit ();
+		}
+		function turnpageS (pagenum,frm){
+			if(frm==null || frm==''){
+				frm=document.getElementById('$form');
+			}else{
+				frm=document.getElementById(frm);
+			}
+			$('input[data-value]',frm).each(function(){
+				if($(this).val() ==  $(this).attr('data-value')){
+					$(this).val('');
+				}
+			});
+			frm.page.value=pagenum;
+			frm.submit ();
+		}
+		//按钮提交
+		function subpage (pages,frm){
+			if(frm==null || frm==''){
+				frm=document.getElementById('$form');
+			}else{
+				frm=document.getElementById(frm);
+			}
+			var pagenum = document.getElementById("pageid").value;
+			//超过最大页 ， 取最大页
+			if(eval(pagenum) > eval(pages)){
+				pagenum = pages;
+			}
+			$('input[data-value]',frm).each(function(){
+				if($(this).val() ==  $(this).attr('data-value')){
+					$(this).val('');
+				}
+			});
+			frm.page.value=pagenum;
+			frm.submit ();
+		}
+	</script>
+     <div class="commonpage">
+     	#set($prepage = $pageInfo.pageBean.getPrePageNo())
+    	#set($nextpage = $pageInfo.pageBean.getNextPageNo())
+    	#set($pages = $pageInfo.pageBean.getPages())
+		#set($pageSizes = [20,40,60])
+    	#if(($pageInfo.pageBean.pageSize * $pages)<$pageInfo.pageBean.count)
+    		#set($pages = $pages +1)
+		#end
+		 <span class="pageleft pageleftH">
+			<span>
+				共有$!pageInfo.pageBean.count条记录，每页显示
+				<select id="pageSize" name="pageSize" class="acc-m-l5" onchange="javascript:turnpageS(1,'$form')">
+					#foreach($dyPageSize in $pageSizes)
+						#if($dyPageSize == $!pageInfo.pageBean.pageSize )
+							<option value="$dyPageSize" selected >$dyPageSize</option>
+						#else
+							<option value="$dyPageSize">$dyPageSize</option>
+						#end
+					#end
+				</select>
+				条
+			</span>
+		</span> 
+		<span class="pageright"> 
+			<span>
+				#if($!pageInfo.pageBean.page == 1)
+				<span class="disablebtn returnbtn">
+					
+				</span>
+				#else
+				<a class="lsForward" href="javascript:turnpage($prepage,'$form')">
+					<span class="returnbtn" > </span>
+				</a>
+				#end
+				#set($begin = 1)
+				#set($last = 1)
+				#if($pages<=10)
+						#set($last = $pages)
+				#else
+					#if($pageInfo.pageBean.page >3)
+						#set($begin = $pageInfo.pageBean.page - 3)
+						#set($last = $!pageInfo.pageBean.page + 3)
+					#else
+						#set($begin = 1 )
+						#set($last = 8)
+					#end
+					#if($last >= $pages)
+						#set($last = $pages)
+					#end
+				#end
+				#if(${begin} > 1)
+					<a href="javascript:turnpage(1,'$form')">1</a>
+				#end
+				#if(${begin} > 2)
+					<span>...</span>
+				#end
+				#foreach($index in [${begin}..${last}])
+					#if($index==$!pageInfo.pageBean.page)
+						<b>$index</b>
+					#else
+						<a href="javascript:turnpage($index,'$form')">$index</a>
+					#end
+				#end
+				#if($last <= ($pages - 2))
+					<span>...</span>
+				#end
+				#if($last < $pages)
+					<a href="javascript:turnpage($pages,'$form')">$pages</a>
+				#end
+				#if($!pageInfo.pageBean.page == $pages)
+				<span class="disaforward"> </span>
+				#else
+				<a class="lsForward" href="javascript:turnpage($nextpage,'$form')">
+					<span class="disablebtn"> </span>
+				</a>
+				#end
+			</span>
+			<span class="gotopage">到<input name="page" id="pageid" type="text" class="inputtext" value="$!pageInfo.pageBean.page" onkeyup="numberReg(this)" onafterpaste="numberReg(this)"/>页<span class="buttonpage">
+					<input type="button"  class="managInputFour" onclick="javascript:subpage('$pages','$form')" value="确 定">
+				</span>
+			</span> 
+		</span> 
+     </div>
+     #end
+#end
+
+
