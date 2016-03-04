@@ -2,13 +2,14 @@ package base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class ThreadDemo {
 
-	static final Integer threadsize = 9;
+	static final Integer threadsize = 10;
 	static ExecutorService pool = Executors.newFixedThreadPool(threadsize);
 	
 	public static void main(String[] args) {
@@ -18,6 +19,8 @@ public class ThreadDemo {
 			lst.add(i);
 			i--;
 		}
+		
+		CountDownLatch latch=new CountDownLatch(threadsize);//同步辅助类
 		for (int j = 0; j < threadsize; j++) {//数据分片
 			List<Integer> lt = new ArrayList<Integer>();
 			int pagesize = lst.size()/threadsize;
@@ -30,7 +33,7 @@ public class ThreadDemo {
 					lt.add(lst.get(k));
 				}
 			}
-			RunByThread run  = new RunByThread(1,lt);//提交线程
+			RunByThread run  = new RunByThread(1,lt,latch);//提交线程
 			pool.submit(run);
 		}
 		pool.shutdown();
@@ -41,9 +44,11 @@ public class ThreadDemo {
 	class RunByThread implements Runnable{
 	Integer i;
 	List<Integer> lst;
-	RunByThread(Integer i,List<Integer> lst) {
+	CountDownLatch latch;
+	RunByThread(Integer i,List<Integer> lst,CountDownLatch latch) {
 		this.i = i;
 		this.lst = lst;
+		this.latch = latch;
 	}
 	
 	public void run() {
