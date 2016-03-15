@@ -18,7 +18,7 @@ public class ThreadDemo2 extends Thread {
 		}
 		println("init --end->" + new Date());
 
-		System.exit(0);
+//		System.exit(0);
 	}
 	
 	int tabindex;
@@ -33,14 +33,20 @@ public class ThreadDemo2 extends Thread {
 
 	public void run() {
 		this.lst = new ArrayList<String>();
+		Thread thread = Thread.currentThread();
+		try {
+			thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (int i = 0; i < 10; i++) {
 			lst.add("帅不帅"+i);
 		}
-		rundel(tabindex);
+		rundel(tabindex,thread);
 	}
 	
-	public void rundel(int tabindex){
-		Thread thread = Thread.currentThread();
+	public void rundel(int tabindex,Thread thread){
 		println(thread.getName()+lst);
 	}
 	
