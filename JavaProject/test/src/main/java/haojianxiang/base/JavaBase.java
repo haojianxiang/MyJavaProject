@@ -191,7 +191,10 @@ public class JavaBase {
               default:
                System.out.println("other");
         }
-
+        
+        String val = "asadfuygfasjbfaiougfalijgnaiug";
+        String strObj = "bfaiougfali";
+        System.out.println(val.indexOf(strObj));
         
         
 	}
