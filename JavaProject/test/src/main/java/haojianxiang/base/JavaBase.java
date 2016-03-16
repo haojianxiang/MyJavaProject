@@ -194,7 +194,14 @@ public class JavaBase {
         
         String val = "asadfuygfasjbfaiougfalijgnaiug";
         String strObj = "bfaiougfali";
-        System.out.println(val.indexOf(strObj));
+        System.out.println(val.indexOf(strObj)>-1);
+        
+        int size = 354685114;
+        for (int j = 0; j < 50; j++) {
+        	size++;
+        	System.out.println(size%6);
+		}
+        
         
         
 	}
