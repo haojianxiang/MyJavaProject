@@ -16,9 +16,16 @@ public class ThreadDemo2 extends Thread {
 		for (int tabindex = 0; tabindex < 16; tabindex++) {
 			new ThreadDemo2(tabindex,latch).start();
 		}
-		println("init --end->" + new Date());
-
-//		System.exit(0);
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}finally{
+			println("init --end->" + new Date());
+			println(latch.getCount());
+			System.exit(0);
+		}
+//		
 	}
 	
 	int tabindex;
@@ -35,15 +42,16 @@ public class ThreadDemo2 extends Thread {
 		this.lst = new ArrayList<String>();
 		Thread thread = Thread.currentThread();
 		try {
-			thread.sleep(10000);
+			thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			lst.add("帅不帅"+i);
 		}
 		rundel(tabindex,thread);
+		latch.countDown();
 	}
 	
 	public void rundel(int tabindex,Thread thread){
