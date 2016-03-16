@@ -24,7 +24,7 @@ public class ThreadDemo2 extends Thread {
 			List<String> sublst = new ArrayList<String>();
 			int sub = lst.size()/threadNum;//一片个数
 			if (tabindex!=threadNum-1) {
-				for (int i = 0; i < sub-1; i++) {//前n片
+				for (int i = 0; i < sub; i++) {//前n片
 					sublst.add(lst.get(tabindex*sub+i));
 				}
 			}else {//最后一片
