@@ -15,9 +15,10 @@ public class DataSplit {
 		for (int i = 0; i < dataSource.size(); i++) {
 			T t = dataSource.get(i);
 			int hashcode = t.hashCode();
-//			System.out.println(hashcode);
+			if (hashcode<0) {
+				hashcode = - hashcode;
+			}
 			int mark = hashcode%subNum;
-			System.out.println(mark);
 			List<T> subLst = rst.get(mark);
 			subLst.add(t);
 			rst.remove(mark);
@@ -26,15 +27,12 @@ public class DataSplit {
 		return rst;
 	}
 	
-	public static <T> Map<Integer,List<T>> splitOld(Integer subNum, List<T> dataSource){
+	public static <T> Map<Integer,List<T>> splitOld(Integer subNum, List<T> dataSource){//最后一片压力太大
 		Map<Integer,List<T>> rst = new HashMap<Integer, List<T>>(subNum);
 		int count=0;
 		for (int j = 0; j < subNum; j++) {
 			List<T> lt = new ArrayList<T>();
 			int pagesize = dataSource.size()/subNum;
-			if ((dataSource.size()%subNum)>(dataSource.size()/subNum)) {
-				pagesize +=1;
-			}
 			if (j!=subNum-1) {//前几片
 				for (int k = 0; k < pagesize; k++) {
 					lt.add(dataSource.get(j*pagesize+k));
@@ -52,26 +50,28 @@ public class DataSplit {
 	
 	
 	public static void main(String[] args){
-		int subNum = 1000;
-		int wholeSize=299999;
+		int subNum = 876;
+		int wholeSize=299919;
 		
 		List<String> lst = new ArrayList<String>();
 		for (int i = 0; i < wholeSize; i++) {
-			lst.add("aaaaaaaaaaaaaaaa"+i);
+			lst.add("aadsr"+i);
 		}
-//		Map<Integer, List<String>> map= split(subNum, lst);
-//		for (int i = 0; i < map.size(); i++) {
-//			System.out.println(map.get(i).size());
+
+//		Map<Integer, List<String>> map2= splitOld(subNum, lst);
+//		for (int i = 0; i < map2.size(); i++) {
+//			System.out.println(map2.get(i).size());
+//			total+=map2.get(i).size();
 //		}
+//		System.out.println(total);
 		System.out.println("************************");
 		int total = 0;
-		Map<Integer, List<String>> map2= splitOld(subNum, lst);
-		for (int i = 0; i < map2.size(); i++) {
-			System.out.println(map2.get(i).size());
-			total+=map2.get(i).size();
+		Map<Integer, List<String>> map= split(subNum, lst);
+		for (int i = 0; i < map.size(); i++) {
+			System.out.println(map.get(i).size());
+			total+=map.get(i).size();
 		}
 		System.out.println(total);
-		
 	}
 	
 }
