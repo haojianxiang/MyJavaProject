@@ -42,7 +42,7 @@ public class ThreadDemo2 extends Thread {
 		this.lst = new ArrayList<String>();
 		Thread thread = Thread.currentThread();
 		try {
-			thread.sleep(5000);
+			thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,6 +51,7 @@ public class ThreadDemo2 extends Thread {
 			lst.add("帅不帅"+i);
 		}
 		rundel(tabindex,thread);
+		System.out.println(tabindex);
 		latch.countDown();
 	}
 	
