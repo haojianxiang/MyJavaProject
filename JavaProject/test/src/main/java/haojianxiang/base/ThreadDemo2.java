@@ -1,38 +1,30 @@
 package haojianxiang.base;
 
+import haojianxiang.util.DataSplit;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class ThreadDemo2 extends Thread {
 
 	public static void main(String[] args) {
 		println("start->" + new Date());
-		final int threadNum = 16;
+		final int threadNum = 14;
 		//数据源
 		List<String> lst = new ArrayList<String>();
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 5000; i++) {
 			lst.add("帅不帅"+i);
 		}
 		
-		CountDownLatch latch=new CountDownLatch(16);//同步辅助类
+		CountDownLatch latch=new CountDownLatch(threadNum);//同步辅助类
+		Map<Integer, List<String>> map = DataSplit.split(threadNum, lst);//分片
 		for (int tabindex = 0; tabindex < threadNum; tabindex++) {
-			List<String> sublst = new ArrayList<String>();
-			int sub = lst.size()/threadNum;//一片个数
-			if (tabindex!=threadNum-1) {
-				for (int i = 0; i < sub; i++) {//前n片
-					sublst.add(lst.get(tabindex*sub+i));
-				}
-			}else {//最后一片
-				for (int j = sub*(threadNum-1); j < lst.size(); j++) {
-					sublst.add(lst.get(j));
-				}
-			}
-			
+			List<String> sublst = null;
+			sublst = map.get(tabindex);
 			new ThreadDemo2(tabindex,latch,sublst).start();
 		}
 		try {
@@ -41,7 +33,7 @@ public class ThreadDemo2 extends Thread {
 			e.printStackTrace();
 		}finally{
 			println("init --end->" + new Date());
-			println(latch.getCount());
+//			println(latch.getCount());
 			System.exit(0);
 		}
 //		
@@ -62,19 +54,17 @@ public class ThreadDemo2 extends Thread {
 //		this.lst = new ArrayList<String>();
 		Thread thread = Thread.currentThread();
 		try {
-			thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		rundel(tabindex,thread);
-		System.out.println(tabindex);
 		latch.countDown();
 	}
 	
 	public void rundel(int tabindex,Thread thread){
-		println(thread.getName()+lst);
+		println(thread.getName()+" __list size is :"+lst.size());
 	}
 	
 	static void println(Object obj) {
