@@ -38,7 +38,7 @@ public class PaopaowangProcessor implements PageProcessor{
 	
 	public static void main(String[] args) throws Exception{
 		String[] urls2 = {  "http://shop.pcpop.com/" };
-//		String[] urls2 = {  "http://16009.shop.pcpop.com/IncInfo.html" };
+//		String[] urls2 = {  "http://28397.shop.pcpop.com/" };
 		for (int i = 0; i < urls2.length; i++) {
 			startSpider(channel, urls2[i]);
 		}
@@ -53,7 +53,7 @@ public class PaopaowangProcessor implements PageProcessor{
 		
 //		JedisPool pool= new JedisPool("192.168.1.172");
 		Spider.create(new PaopaowangProcessor())
-//		.addPipeline(new DBPlatformContactPipeline()).setUUID(channel)
+		.addPipeline(new DBPlatformContactPipeline()).setUUID(channel)
 //		.setScheduler(new RedisScheduler(pool))
 		.addUrl(startUrls)
 		.thread(8)
@@ -117,7 +117,7 @@ public class PaopaowangProcessor implements PageProcessor{
 		String a1 = a.get(1);
 		String[] aa = a1.split("\\ ");
 //		data.put("email", aa[2].substring(5, aa[2].length()));
-//		data.put("person", aa[6].substring(4, aa[6].length()));
+		data.put("person", aa[6].substring(4, aa[6].length()));
 //		data.put("websiteid", "8");
 		mobilephone = mobilephone.substring(i-11, i);
 		mobilephone = mobilephone.replaceAll(" ", ""); 
@@ -127,9 +127,9 @@ public class PaopaowangProcessor implements PageProcessor{
 		 */
 		
 		if (mobilephone.matches("^[1][3,5,8]\\d{9}")) {
-			data.put("mobile", mobilephone);
+			data.put("mobilephone", mobilephone);
 		}else {
-			data.put("mobile", "");
+			data.put("mobilephone", "");
 		}
 		
 		Date date = new Date();
@@ -146,8 +146,6 @@ public class PaopaowangProcessor implements PageProcessor{
 		}else {
 			data.put("email", "");
 		}
-		data.put("telephone", "");
-		data.put("category", "");
 		data.put("website", page.getUrl().toString());
 		data.put("is_synch", 0);
 		data.put("created", currentTime);
