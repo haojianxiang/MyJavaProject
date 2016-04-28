@@ -6,16 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-//import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 
  * 获取数据库连接
- * 
- * @author qindongliang
  * 
  * **/
 public class DBHelper {
@@ -25,8 +22,7 @@ public class DBHelper {
  	private static BasicDataSource dataSource;     
 	static {
 		try {
-			p.load(Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream("mysql.properties"));
+			p.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("mysql.properties"));
 			dataSource = new BasicDataSource();
 			dataSource.setDriverClassName(p.getProperty("driver"));
 			dataSource.setUrl(p.getProperty("url"));

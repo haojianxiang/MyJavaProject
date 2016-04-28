@@ -25,7 +25,7 @@ public class DBPlatformContactPipeline extends DBHelper implements Pipeline {
 			insertShopCategory(map);
 
 		} else {
-			logger.warn("没抓取到数据");
+//			logger.warn("没抓取到数据");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class DBPlatformContactPipeline extends DBHelper implements Pipeline {
 	private void setProperty(PreparedStatement ps,Map map)throws Exception{
 		
 
-		ps.setString(1,map.get("taskId")+"");
+		ps.setString(1,null);
 		ps.setString(2,map.get("websiteid")+"");
 		ps.setString(3,map.get("person")+"");
 		ps.setString(4,map.get("telephone")+"");
