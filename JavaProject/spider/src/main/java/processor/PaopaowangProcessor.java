@@ -150,7 +150,7 @@ public class PaopaowangProcessor implements PageProcessor{
 		data.put("is_synch", 0);
 		data.put("created", currentTime);
 
-		if (data.get("email").equals("")&data.get("mobile").equals("")) {
+		if (data.get("email").equals("")&data.get("mobilephone").equals("")) {
 			logger.warn("没数据");
 		}else {
 			page.putField(YwClawConstants.PROCESS_DOMAIN_KEY,data);
