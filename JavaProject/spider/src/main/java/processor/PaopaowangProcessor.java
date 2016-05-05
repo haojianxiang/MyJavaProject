@@ -105,20 +105,14 @@ public class PaopaowangProcessor implements PageProcessor{
 		logger.info("当前第"+currentNum+" 个 url:"+page.getUrl().all().get(0));
 		
 		Map<String ,Object> data=new HashMap<String, Object>();
-		//注掉的这些信息不要删除，是上次的信息需求，获取的信息不一样（要重用需要稍加修改）
-//		data.put("channel", "paopaowang_20141029");
 		
-//		data.put("company_name", page.getHtml().xpath("//div[@class='channel-page-left']/a[3]/text()").get());
 		String mobilephone = page.getHtml().xpath("//div[@class='shq6']/div[@class='shq62']/text()").toString();
 		int i = mobilephone.length();
-//		data.put("mobilephone", mobilephone.substring(i-11, i));
 		
 		List<String> a = page.getHtml().xpath("//div[@class='channel-page-nav-bottom']/text()").all();
 		String a1 = a.get(1);
 		String[] aa = a1.split("\\ ");
-//		data.put("email", aa[2].substring(5, aa[2].length()));
 		data.put("person", aa[6].substring(4, aa[6].length()));
-//		data.put("websiteid", "8");
 		mobilephone = mobilephone.substring(i-11, i);
 		mobilephone = mobilephone.replaceAll(" ", ""); 
 		
@@ -160,8 +154,8 @@ public class PaopaowangProcessor implements PageProcessor{
 	
 	@Override
 	public Site getSite() {
-		site.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.27 Safari/537.36"); // 下面的可以不加
-		site.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"); // 下面的可以不加
+		site.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.27 Safari/537.36");
+		site.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
 		site.addHeader("Accept-Encoding", "gzip,deflate,sdch");
 		site.addHeader("Accept-Language", "zh-CN,zh;q=0.8");
 		site.addHeader("Connection", "keep-alive");
