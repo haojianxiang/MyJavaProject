@@ -10,8 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import pipeline.DBPlatformContactPipeline;
 import pipeline.YwClawConstants;
+import redis.clients.jedis.Jedis;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -27,9 +30,10 @@ import us.codecraft.webmagic.processor.PageProcessor;
 
 public class PaopaowangProcessor implements PageProcessor{
 	
+	private Jedis jedis = new Jedis("127.0.0.1",6379);
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private AtomicInteger pageNum = new AtomicInteger(0);
-	private Site site = Site.me().setRetryTimes(3).setTimeOut(100000);
+	private Site site = Site.me().setRetryTimes(2).setTimeOut(5000);
 	private static final String channel = "泡泡网";
 	
 	private static final String URL_START = "http://shop.pcpop.com/";
@@ -51,12 +55,12 @@ public class PaopaowangProcessor implements PageProcessor{
 	 */
 	private static void startSpider(String channel, String startUrls) {
 		
-//		JedisPool pool= new JedisPool("192.168.1.172");
+//		JedisPool pool= new JedisPool("127.0.0.1");
 		Spider.create(new PaopaowangProcessor())
 		.addPipeline(new DBPlatformContactPipeline()).setUUID(channel)
 //		.setScheduler(new RedisScheduler(pool))
 		.addUrl(startUrls)
-		.thread(8)
+		.thread(16)
 		.run();
 	}
 	
@@ -91,6 +95,26 @@ public class PaopaowangProcessor implements PageProcessor{
 	 * @param page
 	 */
 	private void addTargetPageList(Page page){
+//		page.addTargetRequests(page.getHtml().links().regex(URL_TARGET).all());
+		List<String> urls = page.getHtml().xpath("//div[@class='pf811']//a/@href").all();
+		if (jedis!=null) {
+			for (String url:urls) {
+				try {
+					if (jedis.get(url)==null) {
+						jedis.set(url, "1");
+						page.addTargetRequest(url);
+					}else {
+//						logger.info("重复的URL>>>>>---"+url);
+					}
+				} catch (Exception e) {
+//					e.printStackTrace();
+					page.addTargetRequest(url);
+				}
+			}
+		}else {
+			page.addTargetRequests(page.getHtml().xpath("//div[@class='pf811']//a/@href").all());
+		}
+//		page.addTargetRequests(page.getHtml().xpath("//div[@class='pf811']//a/@href").all());
 		List<String> footHrefs = page.getHtml().xpath("//div[@class='pf5']//a/@href").all();
 		page.addTargetRequests(footHrefs);
 		
