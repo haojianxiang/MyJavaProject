@@ -51,7 +51,7 @@ public class Model implements PageProcessor{
 	}
 	private static void startSpider(String taskId, String startUrls) {
 		
-		JedisPool pool= new JedisPool("192.168.1.172");
+		JedisPool pool= new JedisPool("127.0.0.1");
 		Spider.create(new Model(taskId))
 		.addPipeline(new DBPlatformContactPipeline()).setUUID(taskId)
 		.setScheduler(new RedisScheduler(pool))
