@@ -10,8 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import pipeline.DBPlatformContactPipeline;
 import pipeline.YwClawConstants;
 import redis.clients.jedis.Jedis;
@@ -20,7 +18,6 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
-
 
 /**
  * http://shop.pcpop.com/ 网站商家名，联系人名，电话及邮箱的抓取
@@ -129,10 +126,8 @@ public class PaopaowangProcessor implements PageProcessor{
 		logger.info("当前第"+currentNum+" 个 url:"+page.getUrl().all().get(0));
 		
 		Map<String ,Object> data=new HashMap<String, Object>();
-		
 		String mobilephone = page.getHtml().xpath("//div[@class='shq6']/div[@class='shq62']/text()").toString();
 		int i = mobilephone.length();
-		
 		List<String> a = page.getHtml().xpath("//div[@class='channel-page-nav-bottom']/text()").all();
 		String a1 = a.get(1);
 		String[] aa = a1.split("\\ ");
@@ -153,12 +148,9 @@ public class PaopaowangProcessor implements PageProcessor{
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentTime  = formatter.format(date);
-		
 		data.put("channel", "paopaowang");
-		
 		String email = aa[2].substring(5, aa[2].length());
 		email =email.replaceAll(" ", ",");
-		
 		if (email.matches("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$")) {
 			data.put("email", email);
 		}else {
@@ -167,13 +159,11 @@ public class PaopaowangProcessor implements PageProcessor{
 		data.put("website", page.getUrl().toString());
 		data.put("is_synch", 0);
 		data.put("created", currentTime);
-
 		if (data.get("email").equals("")&data.get("mobilephone").equals("")) {
 			logger.warn("没数据");
 		}else {
 			page.putField(YwClawConstants.PROCESS_DOMAIN_KEY,data);
 		}
-		
 	}
 	
 	@Override
